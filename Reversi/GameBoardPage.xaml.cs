@@ -284,74 +284,88 @@ namespace Reversi
             Keyboard.ClearFocus(); // Clears focus from the name entry textboxes.
         }
 
-        private void Player_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Player2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try // try catch clause because this raises nullreference error on first call.
-            {
-                if (Player1Mode.SelectedIndex == 0)
-                {
-                    player1.Mode = Player.Modes.Human;
-                }
-                if (Player2Mode.SelectedIndex == 0)
-                {
-                    player2.Mode = Player.Modes.Human;
-                }
-                if (Player1Mode.SelectedIndex == 1)
-                {
-                    if (player2.Mode == Player.Modes.Human)
-                    {
-                        // Only one player is allowed to be AI.
-                        if (Player2Mode.SelectedIndex == 1)
-                        {
-                            Player2Mode.SelectedIndex = 0;
-                            player2.Mode = Player.Modes.Human;
-                        }
-                        switch (Player1Difficulty.SelectedIndex)
-                        {
-                            case 0:
-                                player1.Mode = Player.Modes.AIEasy;
-                                break;
-                            case 1:
-                                player1.Mode = Player.Modes.AINormal;
-                                break;
-                            case 2:
-                                player1.Mode = Player.Modes.AIHard;
-                                break;
-                            case 3:
-                                player1.Mode = Player.Modes.AILegendary;
-                                break;
-                        }
+            Player_SelectionChanged("player2");
+        }
+        private void Player1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Player_SelectionChanged("player1");
+        }
 
-                        HandleAIMove();
-                    }
-                }
-                if (Player2Mode.SelectedIndex == 1)
-                {
-                    // Only one player is allowed to be AI.
-                    if (Player1Mode.SelectedIndex == 1)
+        private void Player_SelectionChanged(string player)
+        {
+            switch (player)
+            {
+                case "player1":
+                    if (Player1Mode.SelectedIndex == 0)
                     {
-                        Player1Mode.SelectedIndex = 0;
                         player1.Mode = Player.Modes.Human;
                     }
-                    switch (Player2Difficulty.SelectedIndex)
+                    if (Player1Mode.SelectedIndex == 1)
                     {
-                        case 0:
-                            player2.Mode = Player.Modes.AIEasy;
-                            break;
-                        case 1:
-                            player2.Mode = Player.Modes.AINormal;
-                            break;
-                        case 2:
-                            player2.Mode = Player.Modes.AIHard;
-                            break;
-                        case 3:
-                            player2.Mode = Player.Modes.AILegendary;
-                            break;
+                        if (player2.Mode == Player.Modes.Human)
+                        {
+                            // Only one player is allowed to be AI.
+                            if (Player2Mode.SelectedIndex == 1)
+                            {
+                                Player2Mode.SelectedIndex = 0;
+                                player2.Mode = Player.Modes.Human;
+                            }
+                            switch (Player1Difficulty.SelectedIndex)
+                            {
+                                case 0:
+                                    player1.Mode = Player.Modes.AIEasy;
+                                    break;
+                                case 1:
+                                    player1.Mode = Player.Modes.AINormal;
+                                    break;
+                                case 2:
+                                    player1.Mode = Player.Modes.AIHard;
+                                    break;
+                                case 3:
+                                    player1.Mode = Player.Modes.AILegendary;
+                                    break;
+                            }
+
+                            HandleAIMove();
+                        }
                     }
-                    HandleAIMove();
-                }
+                    break;
+                case "player2":
+                    if (Player2Mode.SelectedIndex == 0)
+                    {
+                        player2.Mode = Player.Modes.Human;
+                    }
+                    if (Player2Mode.SelectedIndex == 1)
+                    {
+                        // Only one player is allowed to be AI.
+                        if (Player1Mode.SelectedIndex == 1)
+                        {
+                            Player1Mode.SelectedIndex = 0;
+                            player1.Mode = Player.Modes.Human;
+                        }
+                        switch (Player2Difficulty.SelectedIndex)
+                        {
+                            case 0:
+                                player2.Mode = Player.Modes.AIEasy;
+                                break;
+                            case 1:
+                                player2.Mode = Player.Modes.AINormal;
+                                break;
+                            case 2:
+                                player2.Mode = Player.Modes.AIHard;
+                                break;
+                            case 3:
+                                player2.Mode = Player.Modes.AILegendary;
+                                break;
+                        }
+                        HandleAIMove();
+                    }
+                    break;
+                default:
+                    return;
             }
-            catch { }
         }
        
         private void Undo_Click(object sender, RoutedEventArgs e)
